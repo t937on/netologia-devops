@@ -9,5 +9,7 @@ ${db["name"]}   ansible_host=${db["network_interface"][0]["nat_ip_address"]}   f
 %{ endfor ~}
 
 [storage]
+%{ for storage in storages ~}
 ${storage["name"]}   ansible_host=${storage["network_interface"][0]["nat_ip_address"]}   fqdn=${storage["fqdn"]}
+%{ endfor ~}
 
