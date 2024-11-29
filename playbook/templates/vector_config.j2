@@ -1,0 +1,11 @@
+data_dir: "{{ vector_data_dir }}"
+
+sources:
+  in: "stdin"
+
+sinks:
+  out:
+    inputs:
+      - "in"
+    type: "console"
+    encoding: "text"

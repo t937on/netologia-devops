@@ -1,0 +1,12 @@
+---
+clickhouse:
+  hosts:
+    clickhouse-01:
+      ansible_host: 89.169.138.158
+      ansible_user: centos
+
+vector:
+  hosts:
+    vector-01:
+      ansible_host: 89.169.138.158
+      ansible_user: centos
