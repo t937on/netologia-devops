@@ -1,0 +1,14 @@
+---
+clickhouse_ip: "158.160.43.255"
+lighthouse_user_name: "centos"
+
+
+lighthouse_vcs: "https://github.com/VKCOM/lighthouse.git"
+lighthouse_location_dir: "/var/www/html/lighthouse"
+
+lighthouse_config_template: "templates/lighthouse_config.j2"
+nginx_config_template: "templates/nginx_config.j2"
+
+lighthouse_conf: "/etc/nginx/conf.d/lighthouse.conf"
+nginx_conf: "/etc/nginx/nginx.conf"
+
