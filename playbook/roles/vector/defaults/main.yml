@@ -1,0 +1,13 @@
+---
+vector_name: "vector"
+vector_user_name: "centos"
+
+vector_version: "0.20.0"
+vector_package: "vector-{{ vector_version }}-1.x86_64"
+vector_url: "https://packages.timber.io/vector/{{ vector_version }}/{{ vector_package }}.rpm"
+
+vector_bin: "/usr/bin"
+vector_path: "/tmp/{{ vector_name }}"
+vector_config_path: "/etc/{{ vector_name }}"
+
+vector_data_dir: "/var/lib/{{ vector_name }}"

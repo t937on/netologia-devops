@@ -1,0 +1,28 @@
+---
+vector_config_template: "vector_config.j2"
+vector_service_config_template: "vector_service_config.j2"
+
+# config params
+clickhouse_ip: "89.169.156.147"
+clickhouse_db_name: "logs"
+clickhouse_table_name: "my_table"
+
+vector_config:
+  sinks:
+    to_clickhouse:
+      type: clickhouse
+      inputs:
+        - our_log
+      endpoint: "http://{{ clickhouse_ip }}:8123"
+      database: "{{ clickhouse_db_name }}"
+      table: "{{ clickhouse_table_name }}"
+      compression: gzip
+      healthcheck: false
+      skip_unknown_fields: true
+  sources:
+    our_log:
+      ignore_older_secs: 600
+      include:
+        - "/home/{{ vector_name }}/logs/*.log"
+      read_from: beginning
+      type: file

@@ -1,0 +1,105 @@
+---
+# pre_tasks
+- name: Change directory usr
+  become: true
+  ansible.builtin.file:
+    path: "/usr"
+    state: directory
+    mode: '0775'
+- name: Change directory usr bin
+  become: true
+  ansible.builtin.file:
+    path: "/usr/bin"
+    state: directory
+    mode: '0775'
+- name: Change directory etc
+  become: true
+  ansible.builtin.file:
+    path: "/etc"
+    state: directory
+    mode: '0775'
+- name: Change directory systemd
+  become: true
+  ansible.builtin.file:
+    path: "/etc/systemd"
+    state: directory
+    mode: '0775'
+- name: Change directory systemd system
+  become: true
+  ansible.builtin.file:
+    path: "/etc/systemd/system"
+    state: directory
+    mode: '0775'
+
+# tasks
+- name: Get Vector version
+  ansible.builtin.command: vector --version
+  register: is_installed
+  ignore_errors: true
+  changed_when: true
+
+- name: Create install directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ vector_path }}"
+    state: directory
+    mode: '0775'
+
+- name: Create configuration directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ vector_config_path }}"
+    state: directory
+    mode: '0775'
+
+- name: Change directory var lib vector
+  become: true
+  ansible.builtin.file:
+    path: "{{ vector_data_dir }}"
+    state: directory
+    mode: '0775'
+
+- name: Change directory var lib vector
+  become: true
+  ansible.builtin.file:
+    path: "{{ vector_data_dir }}/validate_tmp"
+    state: directory
+    mode: '0775'
+
+- name: Change directory var lib vector our_log
+  become: true
+  ansible.builtin.file:
+    path: "{{ vector_data_dir }}/our_log"
+    state: directory
+    mode: '0775'
+
+- name: Download Vector distribution
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ vector_url }}"
+    dest: "{{ vector_path }}"
+    mode: '0644'
+  when: is_installed is failed
+
+- name: Install Vector
+  become: true
+  ansible.builtin.yum:
+    name:
+      - "{{ vector_path }}/{{ vector_package }}.rpm"
+    state: present
+
+- name: Deploy Vector configuration from template
+  become: true
+  ansible.builtin.template:
+    src: "{{ vector_config_template }}"
+    dest: "{{ vector_config_path }}/vector.yaml"
+    mode: '0644'
+  when: is_installed is failed
+
+- name: Deploy Vector-service configuration from template
+  become: true
+  ansible.builtin.template:
+    src: "{{ vector_service_config_template }}"
+    dest: /etc/systemd/system/vector.service
+    mode: '0644'
+  notify: Restart Vector

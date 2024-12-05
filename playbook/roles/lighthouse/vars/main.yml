@@ -1,0 +1,6 @@
+---
+lighthouse_location_dir: "/var/www/html/lighthouse"
+
+lighthouse_config_template: "lighthouse_config.j2"
+
+lighthouse_conf: "/etc/nginx/conf.d/lighthouse.conf"

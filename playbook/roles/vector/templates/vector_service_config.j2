@@ -1,0 +1,16 @@
+[Unit]
+Description=Vector
+Documentation=https://vector.dev
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User={{ vector_user_name }}
+Group={{ vector_user_name }}
+ExecStartPre={{ vector_bin }}/vector validate
+ExecStart={{ vector_bin }}/vector --config {{ vector_config_path }}/vector.yaml
+Restart=on-failure
+Environment=VECTOR_LOG=error
+
+[Install]
+WantedBy=multi-user.target

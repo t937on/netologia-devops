@@ -1,0 +1,24 @@
+---
+# pre_tasks:
+- name: Install git
+  become: true
+  ansible.builtin.yum:
+    name: git
+    state: present
+
+# tasks:
+- name: Clone Lighthouse repository
+  become: true
+  ansible.builtin.git:
+    repo: "{{ lighthouse_vcs }}"
+    dest: "{{ lighthouse_location_dir }}"
+    version: master
+
+- name: Create Lighthouse config
+  become: true
+  ansible.builtin.template:
+    src: "{{ lighthouse_config_template }}"
+    dest: "{{ lighthouse_conf }}"
+    mode: '0644'
+  notify: Restart nginx
+
