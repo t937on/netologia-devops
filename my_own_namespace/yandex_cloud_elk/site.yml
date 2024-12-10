@@ -1,0 +1,8 @@
+---
+- name: Call role single_task
+  hosts: localhost
+  gather_facts: no
+  collections:
+    - my_own_namespace.yandex_cloud_elk
+  roles:
+    - single_task

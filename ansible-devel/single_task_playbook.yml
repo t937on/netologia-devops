@@ -1,0 +1,9 @@
+---
+- name: Single task playbook test module
+  hosts: localhost
+  tasks:
+    - name: Call my_own_module
+      my_own_module:
+        path: tmp/myfile.txt
+        content: "Hello, World!"
+
