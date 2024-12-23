@@ -1,0 +1,17 @@
+node("linux"){
+    properties([parameters([booleanParam(name: 'prod_run', defaultValue: false, description: 'Запуск с флагами для продакшн')])])
+    
+    stage("Git checkout"){
+        git branch: 'main', credentialsId: 'f20892b7-5c27-44cb-84b2-420cf08561c8', url: 'git@github.com:t937on/netologia-jenkins.git'
+    }
+
+    stage("Run playbook"){
+        if (params.prod_run){
+            sh 'ansible-playbook site.yml -i inventory/prod.yml'
+        }
+        else{
+            sh 'ansible-playbook site.yml -i inventory/prod.yml --check --diff'
+        }
+        
+    }
+}
