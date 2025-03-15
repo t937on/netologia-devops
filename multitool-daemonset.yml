@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: multitool-daemonset
+  namespace: lesson2-1
+spec:
+  selector:
+    matchLabels:
+      app: multitool-lbl
+  template:
+    metadata:
+      labels:
+        app: multitool-lbl
+    spec:
+      containers:
+      - name: multitool
+        image: wbitt/network-multitool
+        command: ['sh', '-c']
+        args:
+        - 'tail -f /var/log/syslog'
+        volumeMounts:
+          - name: logs
+            mountPath: /var/log
+      volumes:
+      - name: logs
+        hostPath:
+          path: /var/log
