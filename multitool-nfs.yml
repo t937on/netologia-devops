@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multitool-deploy
+  namespace: lesson2-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: multitool-lbl
+  template:
+    metadata:
+      labels:
+        app: multitool-lbl
+    spec:
+      containers:
+      - name: multitool
+        image: wbitt/network-multitool
+        volumeMounts:
+          - name: box-nfs
+            mountPath: /box
+      volumes:
+      - name: box-nfs
+        persistentVolumeClaim:
+          claimName: pvc-nfs
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs
+  namespace: lesson2-2
+spec:
+  storageClassName: "microk8s-hostpath"
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

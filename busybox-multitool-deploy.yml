@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-multitool-deploy
+  namespace: lesson2-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-multitool-lbl
+  template:
+    metadata:
+      labels:
+        app: busybox-multitool-lbl
+    spec:
+      containers:
+      - name: busybox
+        image: busybox:1.28
+        command: ['sh', '-c']
+        args:
+        - |
+          while true; do
+            echo "Запись в файл $(date)" >> /box/log.txt
+            sleep 5
+          done
+        volumeMounts:
+          - name: box-volume
+            mountPath: /box
+      - name: multitool
+        image: wbitt/network-multitool
+        command: ['sh', '-c', 'tail -f /box/log.txt']
+        volumeMounts:
+          - name: box-volume
+            mountPath: /box
+      volumes:
+      - name: box-volume
+        persistentVolumeClaim:
+          claimName: pvc-vol
