@@ -2,7 +2,7 @@
   
 ***  
 ### Задание 1. Создать Deployment приложения и решить возникшую проблему с помощью ConfigMap. Добавить веб-страницуs  
-1. Манифест [Deployment](busybox-multitool-deploy.yml) приложения из контейнеров `nginx` и `multitool`  
+1. Манифест [Deployment](nginx-multitool-deploy.yml) приложения из контейнеров `nginx` и `multitool`  
 ![png](m8_ex2.3_1_1.png)  
 ![png](m8_ex2.3_1_2.png)  
 ![png](m8_ex2.3_1_3.png)  
