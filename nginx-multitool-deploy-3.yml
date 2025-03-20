@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-multitool-configmap
+  namespace: lesson2-3
+data:
+  multitool_port: "8080"
+  index.html: |
+    <html>
+    <body>
+    <h1>Hello nginx-multitool-configmap!</h1>
+    </body>
+    </html>
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-multitool-deploy
+  namespace: lesson2-3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lbl
+  template:
+    metadata:
+      labels:
+        app: lbl
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+          name: port-nginx
+        volumeMounts:
+        - name: web-html
+          mountPath: /usr/share/nginx/html
+      - name: multitool
+        image: wbitt/network-multitool
+        ports:
+        - containerPort: 8080
+          name: port-multitool
+        env:
+          - name: HTTP_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: nginx-multitool-configmap
+                key: multitool_port
+      volumes:
+      - name: web-html
+        configMap:
+          name: nginx-multitool-configmap
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-svc
+  namespace: lesson2-3
+spec:
+  selector:
+    app: lbl
+  ports:
+    - name: port-nginx-svc
+      protocol: TCP
+      port: 80
+      targetPort: port-nginx
+  type: ClusterIP

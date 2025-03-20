@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-multitool-deploy
+  namespace: lesson2-3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lbl
+  template:
+    metadata:
+      labels:
+        app: lbl
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+      - name: multitool
+        image: wbitt/network-multitool
