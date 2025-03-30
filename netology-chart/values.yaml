@@ -1,0 +1,18 @@
+replicaCount: 3
+
+nginx:
+  image:
+    repository: nginx
+    tag: latest
+  containerPort: 80
+  servicePort: 9001
+
+multitool:
+  image:
+    repository: wbitt/network-multitool
+    tag: latest
+  containerPort: 8080
+  servicePort: 9002
+
+autoscaling:
+  enabled: false

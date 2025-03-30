@@ -1,0 +1,7 @@
+nginx:
+  image:
+    tag: alpine-slim
+
+multitool:
+  image:
+    tag: minimal

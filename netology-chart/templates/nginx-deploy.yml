@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  namespace: {{ .Release.Namespace }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: nginx-multitool-lbl
+  template:
+    metadata:
+      labels:
+        app: nginx-multitool-lbl
+    spec:
+      containers:
+      - name: nginx
+        image: "{{ .Values.nginx.image.repository }}:{{ .Values.nginx.image.tag }}"
+        ports:
+        - containerPort: {{ .Values.nginx.containerPort }}
+          name: port-nginx
+      - name: multitool
+        image: wbitt/network-multitool
+        ports:
+        - containerPort: 8080
+          name: port-multitool
+        env:
+          - name: HTTP_PORT
+            value: "8080"

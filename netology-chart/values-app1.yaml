@@ -1,0 +1,7 @@
+nginx:
+  image:
+    tag: alpine
+
+multitool:
+  image:
+    tag: extra

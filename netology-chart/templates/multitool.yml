@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multitool-deploy
+  namespace: {{ .Release.Namespace }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: nginx-multitool-lbl
+  template:
+    metadata:
+      labels:
+        app: nginx-multitool-lbl
+    spec:
+      containers:
+      - name: multitool
+        image: "{{ .Values.multitool.image.repository }}:{{ .Values.multitool.image.tag }}"
+        ports:
+        - containerPort: {{ .Values.multitool.containerPort }}
+          name: port-multitool
+        env:
+          - name: HTTP_PORT
+            value: "8080"
+
