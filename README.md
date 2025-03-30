@@ -27,7 +27,7 @@
 8. Список релизов helm  
 ![png](m8_ex2.5_1_11.png)  
   
-9. Пррверка результата  
+9. Проверка результата  
 ![png](m8_ex2.5_1_12.png)  
   
 ***  
@@ -48,7 +48,7 @@
 5. Список релизов helm  
 ![png](m8_ex2.5_2_7.png)  
   
-6. Пррверка результата в namespace=app1  
+6. Проверка результата в namespace=app1  
 ![png](m8_ex2.5_2_8.png)  
   
 7. Переменные [чарта](./netology-chart/values-app2.yaml) для namespace=app2  
@@ -67,7 +67,7 @@
 11. Список релизов helm  
 ![png](m8_ex2.5_2_14.png)  
   
-12. Пррверка результата в namespace=app2  
+12. Проверка результата в namespace=app2  
 ![png](m8_ex2.5_2_15.png)  
   
 13. Список объектов в Kubernetes в всех namespace  
