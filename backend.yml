@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: app # lesson3-3
+spec:
+  selector:
+    matchLabels:
+      app: back
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - name: multitool
+        image: wbitt/network-multitool
+        ports:
+        - containerPort: 8080
+          name: port-multitool
+        env:
+          - name: HTTP_PORT
+            value: "8080"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc
+  namespace: app # lesson3-3
+spec:
+  selector:
+    app: back
+  ports:
+    - name: port-backend-svc
+      protocol: TCP
+      port: 9002
+      targetPort: port-multitool
