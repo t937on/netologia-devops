@@ -20,7 +20,6 @@ terraform output -json
 3. Проверить бакет в яндекс-облаке  
 ![png](m10_1_1_8.png)  
 ![png](m10_1_1_10.png)  
-![png](m10_1_1_6.png)  
 
 4. В GitLab создать проект для инфраструктуры  
 ![png](m10_1_2_2.png)  
@@ -336,7 +335,7 @@ helm repo add gitlab https://charts.gitlab.io
 ![png](m10_5_10.png)  
 ![png](m10_5_11.png)  
   
-5. Создать и отредактировать конфигурацию настроек [values.yaml](/helm_atlantis)  
+5. Создать и отредактировать конфигурацию настроек [values.yaml](/helm_r_gitlab)  
 ![png](m10_5_12.png)  
 ```
 gitlabUrl: https://gitlab.com/
