@@ -8,4 +8,5 @@
 
 # own secret vars store.
 personal.auto.tfvars
+backend.secret.tfvars
 

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+  namespace: lesson10
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web-nginx
+        image: cr.yandex/crpuf2qht9f50tk4cntc/netology/nginx_m10:v.1.0
+        ports:
+        - containerPort: 80
+          name: web-port
+      imagePullSecrets:
+      - name: registrykey
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-svc
+  namespace: lesson10
+spec:
+  selector:
+    app: web
+  ports:
+    - name: port-svc
+      protocol: TCP
+      port: 9001
+      nodePort: 30001
+      targetPort: web-port
+  type: NodePort
+ 

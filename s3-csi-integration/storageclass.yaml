@@ -1,0 +1,45 @@
+# https://yandex.cloud/ru/docs/managed-kubernetes/operations/volumes/s3-csi-integration
+
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: csi-s3
+provisioner: ru.yandex.s3.csi
+parameters:
+  mounter: geesefs
+  options: "--memory-limit=1000 --dir-mode=0777 --file-mode=0666"
+  # bucket: <опционально:_имя_существующего_бакета>
+  bucket: "bucket-m10"
+  csi.storage.k8s.io/provisioner-secret-name: csi-s3-secret
+  csi.storage.k8s.io/provisioner-secret-namespace: kube-system
+  csi.storage.k8s.io/controller-publish-secret-name: csi-s3-secret
+  csi.storage.k8s.io/controller-publish-secret-namespace: kube-system
+  csi.storage.k8s.io/node-stage-secret-name: csi-s3-secret
+  csi.storage.k8s.io/node-stage-secret-namespace: kube-system
+  csi.storage.k8s.io/node-publish-secret-name: csi-s3-secret
+  csi.storage.k8s.io/node-publish-secret-namespace: kube-system
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+
+# ERROR
+# Исправить ошибку в файле
+# s3-csi-integration/k8s-csi-s3/deploy/kubernetes/csi-s3.yaml
+#       containers:
+#         - name: driver-registrar
+#           # image: quay.io/k8scsi/csi-node-driver-registrar:v1.2.0
+#           image: quay.io/k8scsi/csi-node-driver-registrar:v2.1.0
+# 
+
+# 3. Клонируйте GitHub-репозиторий, содержащий актуальный драйвер Container Storage Interface:
+# git clone https://github.com/yandex-cloud/k8s-csi-s3.git
+#
+# 4. Создайте ресурсы для Container Storage Interface и класс хранилища:
+# kubectl create -f secret.yaml && \
+# kubectl create -f k8s-csi-s3/deploy/kubernetes/provisioner.yaml && \
+# kubectl create -f k8s-csi-s3/deploy/kubernetes/driver.yaml && \
+# kubectl create -f k8s-csi-s3/deploy/kubernetes/csi-s3.yaml && \
+# kubectl create -f storageclass.yaml
+# kubectl apply -f storageclass.yaml
+
+
